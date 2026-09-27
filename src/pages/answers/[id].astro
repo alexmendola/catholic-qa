@@ -1,4 +1,11 @@
 ---
+/**
+ * Answer page: builds one page per file in src/content/answers/,
+ * at /answers/<filename>/.
+ *
+ * It also enforces the answer template. If an answer is missing a required
+ * `##` section, this page throws an error and the build fails.
+ */
 import { getCollection, getEntry, render } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import LiteYouTube from "../../components/LiteYouTube.astro";

@@ -5,9 +5,21 @@ const slugify = (text) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
 
-// Wraps each h2 and the content after it in a <section>, so the page can style
-// "What to say" and "If they push back" as cards. The template check itself lives
-// in src/pages/answers/[id].astro, because errors thrown here don't stop the build.
+/**
+ * Rehype plugin: wraps each `## Heading` and everything after it (up to the
+ * next h2) in a `<section>`, so the page can style each part of an answer.
+ *
+ *   <section class="answer-section what-to-say" aria-labelledby="what-to-say">
+ *     <h2 id="what-to-say">What to say</h2>
+ *     <p>…</p>
+ *   </section>
+ *
+ * Registered in astro.config.mjs. After editing this file, restart with
+ * `npm run dev -- --force`, because Astro caches rendered Markdown.
+ *
+ * The check that required sections exist lives in src/pages/answers/[id].astro,
+ * not here, because errors thrown inside Markdown plugins don't stop the build.
+ */
 export default function rehypeAnswerSections() {
   return (tree) => {
     const before = []; // anything before the first h2 (kept as-is)

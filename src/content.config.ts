@@ -1,3 +1,5 @@
+// The rules every answer and topic file must follow. Astro checks each file's
+// front matter against these schemas at build time. See src/content/README.md.
 import { defineCollection, reference } from "astro:content"; // tools to define collections and link entries
 import { glob } from "astro/loaders"; // finds your files on disk
 import { z } from "astro/zod"; // Zod: describes what valid front matter looks like
