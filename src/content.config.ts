@@ -1,48 +1,37 @@
-// The rules every answer and topic file must follow. Astro checks each file's
-// front matter against these schemas at build time. See src/content/README.md.
-import { defineCollection, reference } from "astro:content"; // tools to define collections and link entries
-import { glob } from "astro/loaders"; // finds your files on disk
-import { z } from "astro/zod"; // Zod: describes what valid front matter looks like
-
-// ---------------------------------------------------------------------------
-// Topics: one Markdown file per topic in src/content/topics/.
-// Powers the topic tiles on the home page and the topic pages.
-// ---------------------------------------------------------------------------
+// Front matter schemas for answers and topics, validated at build time.
+// See src/content/README.md for the writing guide.
+import { defineCollection, reference } from "astro:content";
+import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 
 const topics = defineCollection({
   loader: glob({ base: "./src/content/topics", pattern: "**/*.md" }),
-  schema: (
-    { image }, // a function, so Astro can give the image() helper
-  ) =>
+  schema: ({ image }) =>
     z.object({
-      name: z.string(), // every topic must have a name
-      description: z.string(), // the one-line intro under the topic name
+      name: z.string(),
+      description: z.string(),
       image: z
         .object({
           src: image(),
-          alt: z.string().min(1), // if there's an image, alt text can't be empty
+          alt: z.string().min(1),
           credit: z.string().optional(),
         })
-        .optional(), // tiles without art still build
+        .optional(),
     }),
 });
-
-// ---------------------------------------------------------------------------
-// Answers: one file per question in src/content/answers/.
-// ---------------------------------------------------------------------------
 
 const answers = defineCollection({
   loader: glob({ base: "./src/content/answers", pattern: "**/*.{md,mdx}" }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
-      topic: reference("topics"), // must match a topic's filename, or the build fails
-      shortAnswer: z.string().max(400), // 2–4 sentences; reused under the H1, as the meta description and on cards
+      topic: reference("topics"),
+      shortAnswer: z.string().max(400), // also used as the meta description
 
-      scripture: z.array(z.string()).min(1), // at least one, e.g. [Luke 1:28, Romans 15:30]
-      catechism: z.array(z.number()).min(1), // at least one paragraph number, e.g. [971]
+      scripture: z.array(z.string()).min(1),
+      catechism: z.array(z.number()).min(1),
 
-      related: z.array(reference("answers")).max(5).optional(), // other answers' filenames
+      related: z.array(reference("answers")).max(5).optional(),
 
       goDeeper: z
         .array(
@@ -51,20 +40,20 @@ const answers = defineCollection({
             title: z.string(),
             url: z.url(),
             author: z.string().optional(),
-            youtubeId: z.string().optional(), // if set, shows an embedded player instead of just a link
+            youtubeId: z.string().optional(), // renders an embedded player
           }),
         )
-        .max(3) // three resources, no more
+        .max(3)
         .optional(),
 
       image: z
         .object({
           src: image(),
-          alt: z.string().min(1), // required for accessibility
-          credit: z.string(), // always credit the artwork
+          alt: z.string().min(1),
+          credit: z.string(),
         })
         .optional(),
     }),
 });
 
-export const collections = { topics, answers }; // Astro only sees what is exported
+export const collections = { topics, answers };

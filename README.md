@@ -110,8 +110,9 @@ See the **[writing guide](src/content/README.md)**. It covers the answer templat
 
 **Up next**
 
-- [ ] "Jump to: What to say" link
+- [x] "Jump to: What to say" link
 - [ ] Copy / Share button on the "What to say" script
+- [ ] Idea: write the script as a `>` blockquote so Copy grabs only the script (not the intro line), and it's styled in Georgia like other quotes
 - [ ] "If they push back" in a they say / you say format
 - [ ] Related questions
 - [ ] Home page and topic pages

@@ -1,10 +1,7 @@
 ---
 /**
- * Answer page: builds one page per file in src/content/answers/,
- * at /answers/<filename>/.
- *
- * It also enforces the answer template. If an answer is missing a required
- * `##` section, this page throws an error and the build fails.
+ * One page per answer in src/content/answers/, at /answers/<filename>/.
+ * Fails the build if an answer is missing a required section.
  */
 import { getCollection, getEntry, render } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
@@ -13,16 +10,14 @@ import LiteYouTube from "../../components/LiteYouTube.astro";
 export async function getStaticPaths() {
   const answers = await getCollection("answers");
   return answers.map((answer) => ({
-    params: { id: answer.id },  // fills in [id] in the URL
-    props: { answer },          // hands this answer to the page
+    params: { id: answer.id },
+    props: { answer },
   }));
 }
 
-// Everything below runs once per answer.
 const { answer } = Astro.props;
 const { Content, headings } = await render(answer);
 
-// Enforce the answer template: an error here stops the build.
 const REQUIRED = ["Explanation", "What to say", "If they push back"];
 const titles = headings.filter((h) => h.depth === 2).map((h) => h.text);
 for (const required of REQUIRED) {
@@ -43,7 +38,9 @@ const labels = { free: "Free read", book: "Book", video: "Video" };
       <h2 id="short-answer">Short answer</h2>
       <p>{answer.data.shortAnswer}</p>
     </section>
-
+    <a href="#what-to-say" class="jump-link">
+      Jump to: What to say <span aria-hidden="true">↓</span>
+    </a>
     <Content />
     <h2>Sources</h2>
     <ul>{answer.data.scripture.map((ref) => <li>{ref}</li>)}</ul>
@@ -67,6 +64,48 @@ const labels = { free: "Free read", book: "Book", video: "Video" };
 </main>
 </Layout>
 
+<script>
+  const section = document.querySelector(".what-to-say");
+
+  if (section && navigator.clipboard) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "button copy-button";
+    button.textContent = "Copy";
+
+    // Live region so screen readers announce the result
+    const status = document.createElement("span");
+    status.setAttribute("role", "status");
+    status.className = "visually-hidden";
+
+    section.append(button, status);
+
+    let timer = 0;
+
+    button.addEventListener("click", async () => {
+      const paragraphs = section.querySelectorAll("p");
+      const text = [...paragraphs]
+        .map((p) => p.textContent?.trim() ?? "")
+        .join("\n\n");
+
+      try {
+        await navigator.clipboard.writeText(text);
+        button.innerHTML = 'Copied <span aria-hidden="true">✓</span>';
+        status.textContent = "Copied to clipboard";
+      } catch {
+        button.textContent = "Couldn't copy";
+        status.textContent = "Sorry, that didn't copy. Try selecting the text instead.";
+      }
+
+      clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        button.textContent = "Copy";
+        status.textContent = "";
+      }, 2000);
+    });
+  }
+</script>
+
 <style>
     .short-answer{
         background: var(--surface);
@@ -78,10 +117,10 @@ const labels = { free: "Free read", book: "Book", video: "Video" };
     }
 
     .short-answer h2 {
-        margin: 0 0 4px;           /* no gap above, small gap below */
+        margin: 0 0 4px;
         font-size: 0.8rem;
         text-transform: uppercase;
-        letter-spacing: 0.08em;    /* spread capitals out a little, so they're easier to read */
+        letter-spacing: 0.08em;
         color: var(--accent);
     }
 
@@ -96,5 +135,10 @@ const labels = { free: "Free read", book: "Book", video: "Video" };
         padding: 20px 24px;
         margin-block: 24px;
         box-shadow: 0 2px 12px rgb(0 0 0 / 0.06);
+    }
+
+    .jump-link {
+        font-size: 0.95rem;
+        font-weight: 600;
     }
 </style>

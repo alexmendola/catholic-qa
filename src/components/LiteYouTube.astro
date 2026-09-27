@@ -1,12 +1,11 @@
 ---
 /**
- * A lightweight YouTube player: shows the thumbnail and a play button, and only
- * loads the real player (from youtube-nocookie.com) when someone presses play.
- * This keeps pages fast on phones and sets no YouTube cookies until then.
+ * Lightweight YouTube embed. Shows the thumbnail until played, then loads the
+ * player from youtube-nocookie.com, so pages stay fast and cookie-free.
  */
 interface Props {
-  id: string; // the YouTube video ID, the bit after watch?v=
-  title: string; // the video's title, used for the accessible name
+  id: string; // YouTube video ID
+  title: string;
 }
 
 const { id, title } = Astro.props;
@@ -29,7 +28,6 @@ const { id, title } = Astro.props;
 </div>
 
 <script>
-  // Swap the thumbnail for the real player when the button is pressed.
   document.querySelectorAll<HTMLElement>(".lite-youtube").forEach((el) => {
     el.querySelector("button")?.addEventListener("click", () => {
       const iframe = document.createElement("iframe");
