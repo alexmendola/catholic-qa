@@ -1,0 +1,83 @@
+---
+// A lightweight YouTube player: shows the thumbnail and a play button, and only
+// loads the real player (from youtube-nocookie.com) when someone presses play.
+interface Props {
+  id: string; // the YouTube video ID, the bit after watch?v=
+  title: string; // the video's title, used for the accessible name
+}
+
+const { id, title } = Astro.props;
+---
+
+<div class="lite-youtube" data-id={id} data-title={title}>
+  <button type="button" aria-label={`Play video: ${title}`}>
+    <img
+      src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
+      alt=""
+      loading="lazy"
+      width="480"
+      height="360"
+    />
+    <svg class="play" viewBox="0 0 68 48" width="68" height="48" aria-hidden="true">
+      <path d="M66.5 7.7a8.5 8.5 0 0 0-6-6C55.2.3 34 .3 34 .3s-21.2 0-26.5 1.4a8.5 8.5 0 0 0-6 6C.1 13 .1 24 .1 24s0 11 1.4 16.3a8.5 8.5 0 0 0 6 6C12.8 47.7 34 47.7 34 47.7s21.2 0 26.5-1.4a8.5 8.5 0 0 0 6-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z" fill="#212121" fill-opacity="0.85"></path>
+      <path d="M45 24 27 14v20z" fill="#fff"></path>
+    </svg>
+  </button>
+</div>
+
+<script>
+  // Swap the thumbnail for the real player when the button is pressed.
+  document.querySelectorAll<HTMLElement>(".lite-youtube").forEach((el) => {
+    el.querySelector("button")?.addEventListener("click", () => {
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://www.youtube-nocookie.com/embed/${el.dataset.id}?autoplay=1`;
+      iframe.title = el.dataset.title ?? "YouTube video";
+      iframe.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+      iframe.allowFullscreen = true;
+      el.replaceChildren(iframe);
+      iframe.focus();
+    });
+  });
+</script>
+
+<style>
+  .lite-youtube {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    max-width: 640px;
+    background: #000;
+    overflow: hidden;
+  }
+
+  .lite-youtube button {
+    all: unset;
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  .lite-youtube button:focus-visible {
+    outline: 3px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  .lite-youtube img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .lite-youtube :global(iframe) {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+</style>

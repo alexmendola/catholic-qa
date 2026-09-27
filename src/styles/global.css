@@ -1,0 +1,70 @@
+:root {
+  --bg: #fbf8f4;
+  --surface: #ffffff;
+  --text: #1f1b18;
+  --text-muted: #625a52;
+  --accent: #a3203a;
+  --on-accent: #ffffff;
+  --accent-tint: #f8e9eb;
+  --border: #8f857b;
+  --font-body: "Inter Variable", system-ui, sans-serif;
+  --font-quote: Georgia, "Noto Serif", "Times New Roman", serif;
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161311;
+    --surface: #221e1b;
+    --text: #f2ece6;
+    --text-muted: #ada398;
+    --accent: #f2939f;
+    --on-accent: #161311;
+    --accent-tint: #3a2226;
+    --border: #7a7067;
+    --font-body: "Inter Variable", system-ui, sans-serif;
+    --font-quote: Georgia, "Noto Serif", "Times New Roman", serif;
+  }
+} */
+
+/* Base styles */
+
+:root {
+  color-scheme: light dark; /* form controls and scrollbars follow light/dark mode */
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box; /* padding counts towards width -> layouts are easier to reason about */
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.65;
+}
+
+main {
+  max-width: 68ch; /* comfortable reading width on desktop */
+  margin-inline: auto; /* centre it */
+  padding-inline: 16px; /* keep text off the screen edges on phones */
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+}
+
+a {
+  color: var(--accent);
+  text-underline-offset: 0.15em;
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent); /* clear keyboard focus, in both modes */
+  outline-offset: 2px;
+}
