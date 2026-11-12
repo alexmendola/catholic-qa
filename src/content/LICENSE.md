@@ -22,5 +22,6 @@ Quotations from other works remain under their owners' copyright and are not lic
 - Scripture quotations from the Revised Standard Version, Catholic Edition (RSVCE)
 - Quotations from the *Catechism of the Catholic Church*
 - Artwork and images, which are credited individually
+- Embedded videos, which belong to their creators and are shown via YouTube
 
 The code in this repository is licensed separately under the MIT licence. See `LICENSE` in the repository root.

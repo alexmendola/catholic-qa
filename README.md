@@ -101,17 +101,17 @@ See the **[writing guide](src/content/README.md)**. It covers the answer templat
 
 ## 🗺️ Roadmap
 
-**Done**
+### Done
 
 - [x] Content schema that fails the build if an answer is incomplete
 - [x] Answer pages with short-answer and "What to say" cards
 - [x] Lightweight YouTube embeds
 - [x] Light and dark colour scheme
-
-**Up next**
-
 - [x] "Jump to: What to say" link
-- [ ] Copy / Share button on the "What to say" script
+- [x] Copy button on the "What to say" script
+
+### Up next
+
 - [ ] Idea: write the script as a `>` blockquote so Copy grabs only the script (not the intro line), and it's styled in Georgia like other quotes
 - [ ] "If they push back" in a they say / you say format
 - [ ] Related questions
@@ -121,14 +121,14 @@ See the **[writing guide](src/content/README.md)**. It covers the answer templat
 - [ ] Manual light/dark toggle
 - [ ] Deploy to Cloudflare Pages
 
-**Content**
+### Content
 
-- [ ] The first 15 answers across all six topics
+- [ ] The first 15 answers across all six topics (1/15)
 - [ ] Review by a priest or deacon before launch
 
 ## 🙏 A note on accuracy
 
-This is an independent, personal project, not an official publication of the Catholic Church. It sticks to settled questions, cites its sources openly, and aims to say "I don't know" rather than oversimplify. Where anything here seems to differ from the _Catechism of the Catholic Church_, the Catechism is right.
+This is an independent, personal project, not an official publication of the Catholic Church. It sticks to settled questions, cites its sources openly, and aims to say "I don't know" rather than oversimplify. For instance, where anything here seems to differ from the _Catechism of the Catholic Church_, the Catechism is right.
 
 Spotted a mistake? Please [open an issue](https://github.com/alexmendola/catholic-qa/issues).
 
@@ -139,4 +139,4 @@ Spotted a mistake? Please [open an issue](https://github.com/alexmendola/catholi
 | 💻 **Code** (everything except `src/content/`) | [MIT](LICENSE)                                                                                          |
 | ✍️ **Written content** (`src/content/`)        | [CC BY-NC-ND 4.0](src/content/LICENSE.md): share freely with credit, non-commercial, no edited versions |
 
-Scripture quotations (RSVCE), Catechism quotations and artwork remain the property of their respective copyright holders.
+Scripture quotations (RSVCE), Catechism quotations, artwork and embedded videos remain the property of their respective copyright holders.
